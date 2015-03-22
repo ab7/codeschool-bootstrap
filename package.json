@@ -1,31 +1,30 @@
 {
-  "name": "grunt-web-boiler",
+  "name": "codeschool-bootstrap",
   "version": "1.0.0",
-  "devDependencies": {
-    "grunt": ">=0.4.5",
-    "grunt-autoprefixer": ">=1.0.0",
-    "grunt-contrib-concat": ">=0.5.0",
-    "grunt-contrib-copy": "^0.7.0",
-    "grunt-contrib-cssmin": ">=0.10.0",
-    "grunt-contrib-sass": ">=0.7.4",
-    "grunt-contrib-uglify": ">=0.5.0",
-    "grunt-contrib-watch": ">=0.6.1",
-    "grunt-processhtml": "^0.3.3"
-  },
-  "description": "Grunt/Sass frontend boiler.",
+  "description": "Codeschool - Blasting Off With Boostrap",
   "repository": {
     "type": "git",
-    "url": "https://github.com/ab7/grunt-web-boiler"
+    "url": "https://github.com/ab7/codeschool-bootstrap"
   },
-  "keywords": [
-    "grunt",
-    "web",
-    "boiler"
-  ],
   "author": "Alex Baker",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/ab7/grunt-web-boiler/issues"
+    "url": "https://github.com/ab7/codeschool-bootstrap/issues"
   },
-  "homepage": "http://www.alexbakertech.com"
+  "devDependencies": {
+    "livereload": "latest",
+    "node-sass": "latest",
+    "parallelshell": "^1.1.1",
+    "rimraf": "^2.2.8",
+    "watch": "latest"
+  },
+  "scripts": {
+    "predist": "npm run rimraf dist/*",
+
+    "dev:sass": "node-sass src/static/styles/sass/main.scss src/static/styles/main.css",
+    "livereload": "livereload src",
+    "watch": "watch 'npm run dev:sass' src/static/styles/sass/",
+    
+    "dev": "parallelshell 'npm run livereload' 'npm run watch'"
+  }
 }
