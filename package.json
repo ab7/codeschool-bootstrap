@@ -12,19 +12,27 @@
     "url": "https://github.com/ab7/codeschool-bootstrap/issues"
   },
   "devDependencies": {
+    "autoprefixer": "latest",
+    "cssmin": "latest",
     "livereload": "latest",
     "node-sass": "latest",
-    "parallelshell": "^1.1.1",
-    "rimraf": "^2.2.8",
+    "parallelshell": "latest",
+    "uglify-js": "latest",
+    "uncss": "latest",
     "watch": "latest"
   },
   "scripts": {
-    "predist": "npm run rimraf dist/*",
+    "dev:sass": "node-sass src/static/sass/main.scss src/static/main.css",
+    "dev:js": "cat src/static/js/plugins/*.js src/static/js/main.js > src/static/main.js",
+    "dev:livereload": "livereload src",
+    "dev:watchsass": "watch 'npm run dev:sass' src/static/sass",
+    "dev:watchjs": "watch 'npm run dev:js' src/static/js",
+    "dev": "npm run dev:sass && npm run dev:js && parallelshell 'npm run dev:livereload' 'npm run dev:watchsass' 'npm run dev:watchjs'",
 
-    "dev:sass": "node-sass src/static/styles/sass/main.scss src/static/styles/main.css",
-    "livereload": "livereload src",
-    "watch": "watch 'npm run dev:sass' src/static/styles/sass/",
-    
-    "dev": "parallelshell 'npm run livereload' 'npm run watch'"
+    "predist": "rm -rf dist && mkdir -p dist/static && mkdir dist/static/fonts && mkdir dist/static/images",
+    "dist:copy": "cp src/*.html dist && cp -rp src/static/fonts dist/static && cp -rp src/static/images dist/static",
+    "dist:css": "uncss src/index.html | autoprefixer -b 'last 2 versions' | cssmin > dist/static/main.css",
+    "dist:js": "uglifyjs src/static/main.js -c -o dist/static/main.js",
+    "dist": "npm run dev:sass && npm run dist:copy && npm run dist:css && npm run dist:js"
   }
 }
